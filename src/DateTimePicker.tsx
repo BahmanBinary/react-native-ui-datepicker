@@ -25,10 +25,12 @@ import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import jalaliPlugin from '@zoomit/dayjs-jalali-plugin';
 
 dayjs.extend(localeData);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
+dayjs.extend(jalaliPlugin);
 
 export interface DatePickerSingleProps
   extends CalendarThemeProps,
@@ -81,9 +83,11 @@ const DateTimePicker = (
     onChange,
     initialView = 'day',
     height,
+    type = 'gregory',
     ...rest
   } = props;
 
+  dayjs.calendar(type);
   dayjs.locale(locale);
 
   const initialCalendarView: CalendarViews =

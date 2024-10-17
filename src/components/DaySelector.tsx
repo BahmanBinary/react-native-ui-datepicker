@@ -36,7 +36,7 @@ const DaySelector = () => {
 
   const daysGrid = useMemo(
     () => {
-      const today = new Date();
+      const today = dayjs().format('YYYY-MM-DD');
 
       const { fullDaysInMonth } = getDaysInMonth(
         currentDate,
@@ -67,13 +67,22 @@ const DaySelector = () => {
 
           if (mode === 'range') {
             rightCrop = false;
-            const selectedStartDay = areDatesOnSameDay(day.date, startDate);
-            const selectedEndDay = areDatesOnSameDay(day.date, endDate);
+            const selectedStartDay = areDatesOnSameDay(
+              dayjs(day.date, { jalali: dayjs.isJalali() }),
+              startDate
+            );
+            const selectedEndDay = areDatesOnSameDay(
+              dayjs(day.date, { jalali: dayjs.isJalali() }),
+              endDate
+            );
             isSelected = selectedStartDay || selectedEndDay;
-            inRange = isDateBetween(day.date, {
-              startDate,
-              endDate,
-            });
+            inRange = isDateBetween(
+              dayjs(day.date, { jalali: dayjs.isJalali() }),
+              {
+                startDate,
+                endDate,
+              }
+            );
             if (selectedStartDay) {
               leftCrop = true;
             }
@@ -98,10 +107,21 @@ const DaySelector = () => {
             }
           } else if (mode === 'multiple') {
             const safeDates = dates || [];
-            isSelected = safeDates.some((d) => areDatesOnSameDay(day.date, d));
+            isSelected = safeDates.some((d) =>
+              areDatesOnSameDay(
+                dayjs(day.date, { jalali: dayjs.isJalali() }),
+                d
+              )
+            );
 
-            const yesterday = dayjs(day.date).add(-1, 'day');
-            const tomorrow = dayjs(day.date).add(1, 'day');
+            const yesterday = dayjs(day.date, { jalali: dayjs.isJalali() }).add(
+              -1,
+              'day'
+            );
+            const tomorrow = dayjs(day.date, { jalali: dayjs.isJalali() }).add(
+              1,
+              'day'
+            );
 
             const yesterdaySelected = safeDates.some((d) =>
               areDatesOnSameDay(d, yesterday)
@@ -137,7 +157,10 @@ const DaySelector = () => {
               }
             }
           } else if (mode === 'single') {
-            isSelected = areDatesOnSameDay(day.date, date);
+            isSelected = areDatesOnSameDay(
+              dayjs(day.date, { jalali: dayjs.isJalali() }),
+              date
+            );
           }
 
           return {

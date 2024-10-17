@@ -184,6 +184,7 @@ export default function App() {
         <View style={styles.datePickerContainer}>
           <View style={styles.datePicker}>
             <DateTimePicker
+              type="jalali"
               mode={mode}
               date={date}
               locale={locale}
@@ -194,7 +195,7 @@ export default function App() {
               //maxDate={dayjs().add(3, 'day').endOf('day')}
               //disabledDates={[dayjs(), dayjs().add(1, 'day')]}
               //disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // disable weekends
-              //firstDayOfWeek={1}
+              firstDayOfWeek={6}
               displayFullDays
               timePicker={timePicker}
               onChange={onChange}

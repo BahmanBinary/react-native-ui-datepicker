@@ -5,8 +5,7 @@ export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const YEAR_PAGE_SIZE = 12;
 
-export const getMonths = () => dayjs.months();
-
+export const getMonths = () => dayjs.localeData().months();
 export const getMonthName = (month: number) => dayjs.months()[month];
 
 export const getWeekdays = () => dayjs.weekdays();
@@ -25,7 +24,7 @@ export const getWeekdaysMin = (firstDayOfWeek: number) => {
 };
 
 export const getFormated = (date: DateType) =>
-  dayjs(date).format(CALENDAR_FORMAT);
+  dayjs(date).calendar('gregory').format(CALENDAR_FORMAT);
 
 export const getDateMonth = (date: DateType) => dayjs(date).month();
 
@@ -93,7 +92,8 @@ export function isDateDisabled(
 export const getFormatedDate = (date: DateType, format: string) =>
   dayjs(date).format(format);
 
-export const getDate = (date: DateType) => dayjs(date, DATE_FORMAT);
+export const getDate = (date: DateType) =>
+  dayjs(date, { jalali: dayjs.isJalali(), format: DATE_FORMAT });
 
 export const getYearRange = (year: number) => {
   const endYear = YEAR_PAGE_SIZE * Math.ceil(year / YEAR_PAGE_SIZE);
