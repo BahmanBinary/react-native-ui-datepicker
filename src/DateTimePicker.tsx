@@ -207,7 +207,7 @@ const DateTimePicker = (
           });
 
           (onChange as SingleChange)({
-            date: dayjs(newDate).format(),
+            date: newDate,
           });
         } else if (mode === 'range') {
           const sd = state.startDate;
@@ -219,8 +219,8 @@ const DateTimePicker = (
           }
 
           (onChange as RangeChange)({
-            startDate: dayjs(isStart ? getStartOfDay(date) : sd).format(),
-            endDate: !isStart ? dayjs(getEndOfDay(date)).format() : undefined,
+            startDate: isStart ? getStartOfDay(date) : sd,
+            endDate: !isStart ? getEndOfDay(date) : undefined,
           });
         } else if (mode === 'multiple') {
           const safeDates = (state.dates as DateType[]) || [];
@@ -235,8 +235,8 @@ const DateTimePicker = (
           newDates.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
 
           (onChange as MultiChange)({
-            dates: newDates.map((date) => dayjs(date).format()),
-            datePressed: dayjs(newDate).format(),
+            dates: newDates,
+            datePressed: newDate,
             change: exists ? 'removed' : 'added',
           });
         }
