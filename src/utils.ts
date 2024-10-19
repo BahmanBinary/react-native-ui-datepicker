@@ -92,8 +92,7 @@ export function isDateDisabled(
 export const getFormatedDate = (date: DateType, format: string) =>
   dayjs(date).format(format);
 
-export const getDate = (date: DateType) =>
-  dayjs(date, { jalali: dayjs.isJalali(), format: DATE_FORMAT });
+export const getDate = (date: DateType) => dayjs(date, DATE_FORMAT);
 
 export const getYearRange = (year: number) => {
   const endYear = YEAR_PAGE_SIZE * Math.ceil(year / YEAR_PAGE_SIZE);

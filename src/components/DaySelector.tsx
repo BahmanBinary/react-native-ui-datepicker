@@ -195,7 +195,9 @@ const DaySelector = () => {
 
   const handleSelectDate = useCallback(
     (date: string) => {
-      const newDate = getDate(date).hour(hour).minute(minute);
+      const newDate = getDate(dayjs(date, { jalali: dayjs.isJalali() }))
+        .hour(hour)
+        .minute(minute);
 
       onSelectDate(getFormated(newDate));
     },
