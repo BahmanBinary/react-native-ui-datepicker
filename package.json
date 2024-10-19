@@ -4,7 +4,7 @@
   "description": "Customizable date picker for React Native",
   "main": "src/index.ts",
   "module": "lib/module/index",
-  "types": "lib/typescript/src/index.d.ts",
+  "types": "src/types.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
