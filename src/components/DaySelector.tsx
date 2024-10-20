@@ -79,8 +79,8 @@ const DaySelector = () => {
             inRange = isDateBetween(
               dayjs(day.date, { jalali: dayjs.isJalali() }),
               {
-                startDate,
-                endDate,
+                startDate: dayjs(startDate),
+                endDate: endDate && dayjs(endDate),
               }
             );
             if (selectedStartDay) {

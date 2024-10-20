@@ -1,4 +1,10 @@
-import React, { memo, useCallback, useEffect, useReducer } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+} from 'react';
 import {
   getFormated,
   getDate,
@@ -76,16 +82,52 @@ const DateTimePicker = (
     minDate,
     maxDate,
     disabledDates,
-    date,
-    startDate,
-    endDate,
-    dates,
+    date: propDate,
+    startDate: propStartDate,
+    endDate: propEndDate,
+    dates: propDates,
     onChange,
     initialView = 'day',
     height,
     type = 'gregory',
     ...rest
   } = props;
+
+  const date = useMemo(
+    () =>
+      propDate &&
+      dayjs(propDate, { jalali: dayjs.isJalali() })
+        .calendar('gregory')
+        .format(),
+    [propDate]
+  );
+
+  const dates = useMemo(
+    () =>
+      propDates &&
+      propDates.map((date) =>
+        dayjs(date, { jalali: dayjs.isJalali() }).calendar('gregory').format()
+      ),
+    [propDates]
+  );
+
+  const startDate = useMemo(
+    () =>
+      propStartDate &&
+      dayjs(propStartDate, { jalali: dayjs.isJalali() })
+        .calendar('gregory')
+        .format(),
+    [propStartDate]
+  );
+
+  const endDate = useMemo(
+    () =>
+      propEndDate &&
+      dayjs(propEndDate, { jalali: dayjs.isJalali() })
+        .calendar('gregory')
+        .format(),
+    [propEndDate]
+  );
 
   dayjs.calendar(type);
   dayjs.locale(locale);
@@ -207,7 +249,7 @@ const DateTimePicker = (
           });
 
           (onChange as SingleChange)({
-            date: newDate,
+            date: dayjs(newDate).format(),
           });
         } else if (mode === 'range') {
           const sd = state.startDate;
@@ -219,8 +261,8 @@ const DateTimePicker = (
           }
 
           (onChange as RangeChange)({
-            startDate: isStart ? getStartOfDay(date) : sd,
-            endDate: !isStart ? getEndOfDay(date) : undefined,
+            startDate: dayjs(isStart ? getStartOfDay(date) : sd).format(),
+            endDate: !isStart ? dayjs(getEndOfDay(date)).format() : undefined,
           });
         } else if (mode === 'multiple') {
           const safeDates = (state.dates as DateType[]) || [];
@@ -235,8 +277,8 @@ const DateTimePicker = (
           newDates.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
 
           (onChange as MultiChange)({
-            dates: newDates,
-            datePressed: newDate,
+            dates: newDates.map((date) => dayjs(date).format()),
+            datePressed: dayjs(newDate).format(),
             change: exists ? 'removed' : 'added',
           });
         }
